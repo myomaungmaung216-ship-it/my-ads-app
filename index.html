@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My New Ad App</title>
+    <script src="https://sad.adsgram.ai/js/adsgram-ad-sdk.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #eef2f7; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 80%; max-width: 400px; }
+        h1 { color: #333; font-size: 24px; }
+        p { color: #666; margin-bottom: 20px; }
+        .ad-button { background-color: #0088cc; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; width: 100%; }
+        .ad-button:active { transform: scale(0.98); }
+        .ad-button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        #status { margin-top: 20px; font-weight: bold; min-height: 24px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>💎 Reward App</h1>
+    <p>ကြော်ငြာကြည့်ပြီး ဆုလာဘ်များ ရယူလိုက်ပါ</p>
+    <button id="adBtn" class="ad-button">Watch Video Ad</button>
+    <div id="status"></div>
+</div>
+
+<script>
+    // Adsgram အစစ်မရသေးခင် Test ID "245" ကို သုံးထားပါတယ်
+    const AdController = window.Adsgram.init({ blockId: "245" });
+
+    const btn = document.getElementById('adBtn');
+    const status = document.getElementById('status');
+
+    btn.addEventListener('click', () => {
+        status.innerText = '⌛ ကြော်ငြာကို ရှာဖွေနေပါသည်...';
+        status.style.color = '#34495e';
+        btn.disabled = true;
+
+        AdController.show().then((result) => {
+            // User က ကြော်ငြာကို အဆုံးထိ ကြည့်ပြီးသွားလျှင်
+            status.innerText = '✅ အောင်မြင်ပါသည်။ ဆုလာဘ် ရရှိသွားပါပြီ။';
+            status.style.color = '#27ae60';
+        }).catch((result) => {
+            // Error တစ်ခုခုတက်လျှင် သို့မဟုတ် User က ကြော်ငြာကို ပိတ်လိုက်လျှင်
+            status.innerText = '❌ ကြော်ငြာကြည့်တာ မအောင်မြင်ပါ။';
+            status.style.color = '#e74c3c';
+            console.log('Error info:', result);
+        }).finally(() => {
+            btn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>
