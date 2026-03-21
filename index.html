@@ -13,19 +13,12 @@
         .ad-button { background-color: #0088cc; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.3s; width: 100%; }
         .ad-button:active { transform: scale(0.98); }
         .ad-button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
-        #status { margin-top: 20px; font-weight: bold; min-height: 24px; }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h1>💎 Reward App</h1>
-    <p>ကြော်ငြာကြည့်ပြီး ဆုလာဘ်များ ရယူလိုက်ပါ</p>
-    <button id="adBtn" class="ad-button">Watch Video Ad</button>
+      <div class="card">
+    <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
     <div id="status"></div>
 </div>
-
-<script>
+        
+        <script>
     // Adsgram အစစ်မရသေးခင် Test ID "245" ကို သုံးထားပါတယ်
     const AdController = window.Adsgram.init({ blockId: "245" });
 
