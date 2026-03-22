@@ -46,7 +46,6 @@
             background: #eef7ff;
             border: 2px solid #0388cc;
             border-radius: 15px;
-            display: block !important; /* သေချာပေါက် ပေါ်အောင် လုပ်ထားခြင်း */
         }
         #adCount { font-weight: bold; color: #0388cc; font-size: 24px; }
         #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
@@ -55,7 +54,7 @@
 <body>
 
 <div class="card">
-    <div class="counter-box" id="countUI">
+    <div class="counter-box">
         ကြည့်ပြီးသည့်အကြိမ်<br>
         <span id="adCount">0</span> ကြိမ်
     </div>
@@ -68,7 +67,7 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
     
-    // အရေအတွက်ကို သိမ်းဆည်းရန်
+    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အရေအတွက်ကို ပြန်ခေါ်မယ်
     let count = parseInt(localStorage.getItem('myAdCount')) || 0;
     adCountDisplay.innerText = count;
 
@@ -77,7 +76,9 @@
         status.style.color = '#333';
         
         if (typeof show_10761454 === 'function') {
+            // ကြော်ငြာကို စတင်ပြသမယ်
             show_10761454().then(() => {
+                // ကြော်ငြာ စက္ကန့်ပြည့်လို့ အမှားခြစ်နှိပ်ပြီး ပိတ်လိုက်မှ ဒီထဲကို ရောက်မှာပါ
                 count++;
                 localStorage.setItem('myAdCount', count);
                 adCountDisplay.innerText = count;
@@ -85,6 +86,7 @@
                 status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
                 status.style.color = 'green';
             }).catch((err) => {
+                // ကြော်ငြာ စက္ကန့်မပြည့်ခင် ပိတ်လိုက်ရင်
                 status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
                 status.style.color = 'red';
             });
