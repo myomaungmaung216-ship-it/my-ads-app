@@ -35,27 +35,29 @@
             cursor: pointer;
             width: 100%;
             transition: 0.3s;
+            margin-top: 10px;
         }
         .ad-button:active { transform: scale(0.95); }
         .counter-box {
-            margin-top: 15px;
-            font-size: 16px;
-            color: #555;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #eef7ff;
+            border: 2px solid #0388cc;
+            border-radius: 15px;
         }
+        #adCount { font-weight: bold; color: #0388cc; font-size: 24px; }
         #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
-        #adCount { font-weight: bold; color: #0388cc; font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="counter-box">
-        ကြည့်ပြီးသည့်အကြိမ် - <span id="adCount">0</span>
+        ကြည့်ပြီးသည့်အကြိမ်<br>
+        <span id="adCount">0</span> ကြိမ်
     </div>
-    <br>
     <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
     <div id="status"></div>
 </div>
@@ -65,8 +67,9 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
     
-    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အရေအတွက်ကို ပြန်ခေါ်တာပါ
-    let count = localStorage.getItem('myAdCount') || 0;
+    // ဖုန်းထဲမှာ အရင်က ကြည့်ထားတဲ့ အရေအတွက်ရှိရင် ယူမယ်၊ မရှိရင် 0
+    let savedCount = localStorage.getItem('myAdCount');
+    let count = savedCount ? parseInt(savedCount) : 0;
     adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
@@ -74,17 +77,15 @@
         status.style.color = '#333';
         
         if (typeof show_10761454 === 'function') {
-            // ကြော်ငြာကို စဖွင့်ပါတယ်
             show_10761454().then(() => {
-                // ကြော်ငြာကို ဆုံးအောင်ကြည့်မှသာ ဒီအပိုင်းကို ရောက်မှာပါ
+                // ကြော်ငြာဆုံးမှ အရေအတွက်တိုးမယ်
                 count++;
-                localStorage.setItem('myAdCount', count); // ဖုန်းထဲမှာ သိမ်းလိုက်ပြီ
+                localStorage.setItem('myAdCount', count);
                 adCountDisplay.innerText = count;
                 
                 status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
                 status.style.color = 'green';
             }).catch((err) => {
-                // ကြော်ငြာကို အလယ်မှာ ပိတ်လိုက်ရင် သို့မဟုတ် အမှားတက်ရင်
                 status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
                 status.style.color = 'red';
             });
