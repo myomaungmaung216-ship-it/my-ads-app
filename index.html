@@ -46,6 +46,7 @@
             background: #eef7ff;
             border: 2px solid #0388cc;
             border-radius: 15px;
+            display: block !important; /* သေချာပေါက် ပေါ်အောင် လုပ်ထားခြင်း */
         }
         #adCount { font-weight: bold; color: #0388cc; font-size: 24px; }
         #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
@@ -54,7 +55,7 @@
 <body>
 
 <div class="card">
-    <div class="counter-box">
+    <div class="counter-box" id="countUI">
         ကြည့်ပြီးသည့်အကြိမ်<br>
         <span id="adCount">0</span> ကြိမ်
     </div>
@@ -67,9 +68,8 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
     
-    // ဖုန်းထဲမှာ အရင်က ကြည့်ထားတဲ့ အရေအတွက်ရှိရင် ယူမယ်၊ မရှိရင် 0
-    let savedCount = localStorage.getItem('myAdCount');
-    let count = savedCount ? parseInt(savedCount) : 0;
+    // အရေအတွက်ကို သိမ်းဆည်းရန်
+    let count = parseInt(localStorage.getItem('myAdCount')) || 0;
     adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
@@ -78,7 +78,6 @@
         
         if (typeof show_10761454 === 'function') {
             show_10761454().then(() => {
-                // ကြော်ငြာဆုံးမှ အရေအတွက်တိုးမယ်
                 count++;
                 localStorage.setItem('myAdCount', count);
                 adCountDisplay.innerText = count;
