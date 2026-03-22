@@ -5,35 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad App</title>
     <script src='https://libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
-    
     <style>
-        body { 
-            font-family: sans-serif; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            background-color: #f0f2f5; 
-            margin: 0; 
+        body {
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
         }
-        .card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            text-align: center; 
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
             width: 85%;
             max-width: 320px;
         }
-        .ad-button { 
-            background-color: #0088cc; 
-            color: white; 
-            border: none; 
-            padding: 16px 20px; 
-            border-radius: 12px; 
-            font-size: 18px; 
+        .ad-button {
+            background-color: #0388cc;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: bold;
-            cursor: pointer; 
+            cursor: pointer;
             width: 100%;
             transition: 0.3s;
         }
@@ -48,23 +47,28 @@
     <div id="status"></div>
 </div>
 
-const btn = document.getElementById('adBtn');
-const status = document.getElementById('status');
+<script>
+    const btn = document.getElementById('adBtn');
+    const status = document.getElementById('status');
 
-btn.addEventListener('click', () => {
-    status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
-    
-    // Monetag SDK တက်၊ မတက် စစ်ဆေးပြီးမှ ခေါ်တာပါ
-    if (typeof show_10761454 === 'function') {
-        show_10761454().then(() => {
-            status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
-            status.style.color = 'green';
-        }).catch((err) => {
-            status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
-            status.style.color = 'red';
-        });
-    } else {
-        status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
-    }
-});
-    
+    btn.addEventListener('click', () => {
+        status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
+        status.style.color = '#333';
+        
+        if (typeof show_10761454 === 'function') {
+            show_10761454().then(() => {
+                status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
+                status.style.color = 'green';
+            }).catch((err) => {
+                status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
+                status.style.color = 'red';
+            });
+        } else {
+            status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
+            status.style.color = 'orange';
+        }
+    });
+</script>
+
+</body>
+</html>
