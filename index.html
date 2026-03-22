@@ -6,47 +6,11 @@
     <title>Ad App</title>
     <script src='https://libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
     <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 85%;
-            max-width: 320px;
-        }
-        .ad-button {
-            background-color: #0388cc;
-            color: white;
-            border: none;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+        .ad-button { background-color: #0388cc; color: white; border: none; padding: 16px 20px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
         .ad-button:disabled { background-color: #ccc; cursor: not-allowed; }
-        .counter-box {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #eef7ff;
-            border: 2px solid #0388cc;
-            border-radius: 15px;
-        }
+        .counter-box { font-size: 18px; color: #333; margin-bottom: 20px; padding: 15px; background: #eef7ff; border: 2px solid #0388cc; border-radius: 15px; }
         #adCount { font-weight: bold; color: #0388cc; font-size: 24px; }
         #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
     </style>
@@ -73,22 +37,25 @@
     btn.addEventListener('click', () => {
         status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
         status.style.color = '#333';
-        btn.disabled = true; // ကြော်ငြာပြနေစဉ် ခလုတ်ကို ထပ်နှိပ်လို့မရအောင် ပိတ်ထားမယ်
-        
+        btn.disabled = true;
+
         if (typeof show_10761454 === 'function') {
-            show_10761454().then((result) => {
-                // အကယ်၍ result က reward ရဖို့ ခိုင်လုံမှသာ အရေအတွက် တိုးမယ်
-                // Monetag SDK အပေါ်မူတည်ပြီး result စစ်ဆေးတာပါ
-                count++;
-                localStorage.setItem('myAdCount', count);
-                adCountDisplay.innerText = count;
-                
-                status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
-                status.style.color = 'green';
+            // Monetag SDK အား reward callback ဖြင့် ခေါ်ယူခြင်း
+            show_10761454().then((isRewarded) => {
+                // ကြော်ငြာကို အဆုံးထိကြည့်ပြီးမှသာ isRewarded က true ဖြစ်မှာပါ
+                if (isRewarded !== false) { 
+                    count++;
+                    localStorage.setItem('myAdCount', count);
+                    adCountDisplay.innerText = count;
+                    status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
+                    status.style.color = 'green';
+                } else {
+                    status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
+                    status.style.color = 'red';
+                }
                 btn.disabled = false;
             }).catch((err) => {
-                // ကြော်ငြာကို အဆုံးထိ မကြည့်ဘဲ ပိတ်လိုက်ရင် ဒီကို ရောက်ပါမယ်
-                status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
+                status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
                 status.style.color = 'red';
                 btn.disabled = false;
             });
