@@ -37,12 +37,25 @@
             transition: 0.3s;
         }
         .ad-button:active { transform: scale(0.95); }
-        #status { margin-top: 20px; font-weight: bold; font-size: 14px; min-height: 20px; }
+        .counter-box {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #555;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
+        #adCount { font-weight: bold; color: #0388cc; font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="counter-box">
+        ကြည့်ပြီးသည့်အကြိမ် - <span id="adCount">0</span>
+    </div>
+    <br>
     <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
     <div id="status"></div>
 </div>
@@ -50,17 +63,29 @@
 <script>
     const btn = document.getElementById('adBtn');
     const status = document.getElementById('status');
+    const adCountDisplay = document.getElementById('adCount');
+    
+    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အရေအတွက်ကို ပြန်ခေါ်တာပါ
+    let count = localStorage.getItem('myAdCount') || 0;
+    adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
         status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
         status.style.color = '#333';
         
         if (typeof show_10761454 === 'function') {
+            // ကြော်ငြာကို စဖွင့်ပါတယ်
             show_10761454().then(() => {
+                // ကြော်ငြာကို ဆုံးအောင်ကြည့်မှသာ ဒီအပိုင်းကို ရောက်မှာပါ
+                count++;
+                localStorage.setItem('myAdCount', count); // ဖုန်းထဲမှာ သိမ်းလိုက်ပြီ
+                adCountDisplay.innerText = count;
+                
                 status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
                 status.style.color = 'green';
             }).catch((err) => {
-                status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
+                // ကြော်ငြာကို အလယ်မှာ ပိတ်လိုက်ရင် သို့မဟုတ် အမှားတက်ရင်
+                status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
                 status.style.color = 'red';
             });
         } else {
