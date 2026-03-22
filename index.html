@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad App</title>
-    <script src='//libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
+    <script src='https://libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
+    
     <style>
         body { 
             font-family: sans-serif; 
@@ -47,20 +48,23 @@
     <div id="status"></div>
 </div>
 
-<script>
-    const btn = document.getElementById('adBtn');
+const btn = document.getElementById('adBtn');
 const status = document.getElementById('status');
 
 btn.addEventListener('click', () => {
     status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
     
-    // Monetag ရဲ့ ကြော်ငြာ function ကို ခေါ်တာပါ
-    show_10761454().then(() => {
-        status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
-        status.style.color = 'green';
-    }).catch((e) => {
-        status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
-        status.style.color = 'red';
-    });
+    // Monetag SDK တက်၊ မတက် စစ်ဆေးပြီးမှ ခေါ်တာပါ
+    if (typeof show_10761454 === 'function') {
+        show_10761454().then(() => {
+            status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
+            status.style.color = 'green';
+        }).catch((err) => {
+            status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
+            status.style.color = 'red';
+        });
+    } else {
+        status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
+    }
 });
     
