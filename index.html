@@ -37,7 +37,7 @@
             transition: 0.3s;
             margin-top: 10px;
         }
-        .ad-button:active { transform: scale(0.95); }
+        .ad-button:disabled { background-color: #ccc; cursor: not-allowed; }
         .counter-box {
             font-size: 18px;
             color: #333;
@@ -67,32 +67,35 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
     
-    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အရေအတွက်ကို ပြန်ခေါ်မယ်
     let count = parseInt(localStorage.getItem('myAdCount')) || 0;
     adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
         status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
         status.style.color = '#333';
+        btn.disabled = true; // ကြော်ငြာပြနေစဉ် ခလုတ်ကို ထပ်နှိပ်လို့မရအောင် ပိတ်ထားမယ်
         
         if (typeof show_10761454 === 'function') {
-            // ကြော်ငြာကို စတင်ပြသမယ်
-            show_10761454().then(() => {
-                // ကြော်ငြာ စက္ကန့်ပြည့်လို့ အမှားခြစ်နှိပ်ပြီး ပိတ်လိုက်မှ ဒီထဲကို ရောက်မှာပါ
+            show_10761454().then((result) => {
+                // အကယ်၍ result က reward ရဖို့ ခိုင်လုံမှသာ အရေအတွက် တိုးမယ်
+                // Monetag SDK အပေါ်မူတည်ပြီး result စစ်ဆေးတာပါ
                 count++;
                 localStorage.setItem('myAdCount', count);
                 adCountDisplay.innerText = count;
                 
                 status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
                 status.style.color = 'green';
+                btn.disabled = false;
             }).catch((err) => {
-                // ကြော်ငြာ စက္ကန့်မပြည့်ခင် ပိတ်လိုက်ရင်
+                // ကြော်ငြာကို အဆုံးထိ မကြည့်ဘဲ ပိတ်လိုက်ရင် ဒီကို ရောက်ပါမယ်
                 status.innerText = '❌ ကြော်ငြာကို ဆုံးအောင် ကြည့်ပေးပါ။';
                 status.style.color = 'red';
+                btn.disabled = false;
             });
         } else {
             status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
             status.style.color = 'orange';
+            btn.disabled = false;
         }
     });
 </script>
