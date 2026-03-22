@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad App</title>
-    <script src="https://sad.adsgram.ai/js/adsgram-ad-sdk.js"></script>
+    <script src='//libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
     <style>
         body { 
             font-family: sans-serif; 
@@ -48,26 +48,19 @@
 </div>
 
 <script>
-    const AdController = window.Adsgram.init({ blockId: "245" });
     const btn = document.getElementById('adBtn');
-    const status = document.getElementById('status');
+const status = document.getElementById('status');
 
-    btn.addEventListener('click', () => {
-        status.innerText = '⌛ ကြော်ငြာကို ရှာဖွေနေပါသည်...';
-        status.style.color = '#333';
-        btn.disabled = true;
-
-        AdController.show().then(() => {
-            status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
-            status.style.color = 'green';
-        }).catch(() => {
-            status.innerText = '❌ မအောင်မြင်ပါ။ နောက်မှ ပြန်ကြိုးစားပါ။';
-            status.style.color = 'red';
-        }).finally(() => {
-            btn.disabled = false;
-        });
+btn.addEventListener('click', () => {
+    status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
+    
+    // Monetag ရဲ့ ကြော်ငြာ function ကို ခေါ်တာပါ
+    show_10761454().then(() => {
+        status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
+        status.style.color = 'green';
+    }).catch((e) => {
+        status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
+        status.style.color = 'red';
     });
-</script>
-
-</body>
-</html>
+});
+    
