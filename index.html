@@ -31,7 +31,7 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
     
-    let count = parseInt(localStorage.getItem('myAdCount')) || 0;
+    let count = 0;
     adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
@@ -45,7 +45,6 @@
                 // ကြော်ငြာကို အဆုံးထိကြည့်ပြီးမှသာ isRewarded က true ဖြစ်မှာပါ
                 if (isRewarded !== false) { 
                     count++;
-                    localStorage.setItem('myAdCount', count);
                     adCountDisplay.innerText = count;
                     status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
                     status.style.color = 'green';
