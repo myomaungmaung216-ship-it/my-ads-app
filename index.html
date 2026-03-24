@@ -30,30 +30,30 @@
     const status = document.getElementById('status');
     const adCountDisplay = document.getElementById('adCount');
 
-    let count = 0;
+    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အကြိမ်ရေကို ပြန်ခေါ်မယ်၊ မရှိရင် 0 လို့မှတ်မယ်
+    let count = parseInt(localStorage.getItem('ad_count')) || 0;
+    adCountDisplay.innerText = count;
 
     btn.addEventListener('click', () => {
-        status.innerText = "⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...";
+        status.innerText = "⌛ ကြော်ငြာ ဖွင့်ပေးနေပါသည်...";
         status.style.color = '#333';
         btn.disabled = true;
 
-        // Adsterra Link
         const adLink = "https://www.profitablecpmratenetwork.com/h50je0pquw?key=37802b0758da1c68241394088c16e4a2";
-
-        // Link ကို အသစ်ဖွင့်မယ်
         const newWindow = window.open(adLink, '_blank');
 
         if (newWindow) {
-            // ၁ စက္ကန့်အကြာမှာ status ပြောင်းပြီး count တိုးမယ်
             setTimeout(() => {
                 count++;
+                // ဖုန်းထဲမှာ အကြိမ်ရေကို အသစ်ပြန်သိမ်းမယ်
+                localStorage.setItem('ad_count', count);
+                
                 adCountDisplay.innerText = count;
                 status.innerText = "✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်";
                 status.style.color = 'green';
                 btn.disabled = false;
-            }, 1000);
+            }, 5000); // ၅ စက္ကန့် စောင့်ခိုင်းထားပါတယ်
         } else {
-            // Pop-up ပိတ်ထားရင် ပြမယ့်စာ
             status.innerText = "⚠️ Pop-up Block ဖြစ်နေပါသည်၊ ခွင့်ပြုပေးပါ။";
             status.style.color = 'orange';
             btn.disabled = false;
