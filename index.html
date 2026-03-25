@@ -1,54 +1,35 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Your Reward</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 350px;
-        }
-        h2 { color: #1a73e8; }
-        p { color: #5f6368; line-height: 1.6; }
-        .btn {
-            background-color: #ff9800;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-        .btn:hover { background-color: #e68900; }
+        body { font-family: 'Pyidaungsu', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; max-width: 320px; }
+        h1 { color: #007bff; font-size: 24px; margin-bottom: 20px; }
+        p { color: #666; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
+        .btn { background-color: #ff9800; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn:hover { background-color: #e68a00; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>ဆုလာဘ်ရယူရန်</h2>
-    <p>အောက်က ခလုတ်ကို နှိပ်ပြီး ခဏစောင့်ပေးပါ။ ကြော်ငြာကြည့်ပြီးတာနဲ့ သင့်အတွက် ဆုလာဘ်ကို ရရှိပါလိမ့်မယ်။</p>
+<div class="card">
+    <h1>ဆုလာဘ်ရယူရန်</h1>
+    <p>အောက်က ခလုတ်ကို နှိပ်ပြီး ကြော်ငြာကြည့်ပေးပါ။ ကြော်ငြာကြည့်ပြီးတာနဲ့ သင့်အတွက် ဆုလာဘ်ကို ရရှိပါလိမ့်မယ်။</p>
     
-    <a href="https://link-hub.net/4551603/v5Uqtj4e9GEm" class="btn">နှိပ်ပြီး ရယူပါ</a>
+    <button onclick="startAds()" class="btn">ကြော်ငြာကြည့်မည်</button>
 </div>
+
+<script>
+    function startAds() {
+        // သင်ပေးထားတဲ့ Linkvertise Link ဖြစ်ပါတယ်
+        window.location.href = "https://link-hub.net/4551603/v5Uqtj4e9GEm";
+    }
+</script>
 
 </body>
 </html>
+
+
