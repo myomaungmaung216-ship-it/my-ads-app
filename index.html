@@ -3,63 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad App</title>
+    <title>Get Your Reward</title>
     <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f4f7f6; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        .ad-button { background-color: #0388cc; color: white; border: none; padding: 16px 20px; border-radius: 12px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
-        .ad-button:disabled { background-color: #ccc; cursor: not-allowed; }
-        .counter-box { font-size: 18px; color: #333; margin-bottom: 20px; padding: 15px; background: #eef7ff; border: 2px solid #0388cc; border-radius: 15px; }
-        #adCount { font-weight: bold; color: #0388cc; font-size: 24px; }
-        #status { margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 350px;
+        }
+        h2 { color: #1a73e8; }
+        p { color: #5f6368; line-height: 1.6; }
+        .btn {
+            background-color: #ff9800;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { background-color: #e68900; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="counter-box">
-        ကြည့်ပြီးသည့်အကြိမ်<br>
-        <span id="adCount">0</span> ကြိမ်
-    </div>
-    <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
-    <div id="status"></div>
+<div class="container">
+    <h2>ဆုလာဘ်ရယူရန်</h2>
+    <p>အောက်က ခလုတ်ကို နှိပ်ပြီး ခဏစောင့်ပေးပါ။ ကြော်ငြာကြည့်ပြီးတာနဲ့ သင့်အတွက် ဆုလာဘ်ကို ရရှိပါလိမ့်မယ်။</p>
+    
+    <a href="https://link-hub.net/4551603/v5Uqtj4e9GEm" class="btn">နှိပ်ပြီး ရယူပါ</a>
 </div>
-
-<script>
-    const btn = document.getElementById('adBtn');
-    const status = document.getElementById('status');
-    const adCountDisplay = document.getElementById('adCount');
-
-    // ဖုန်းထဲမှာ သိမ်းထားတဲ့ အကြိမ်ရေကို ပြန်ခေါ်မယ်၊ မရှိရင် 0 လို့မှတ်မယ်
-    let count = parseInt(localStorage.getItem('ad_count')) || 0;
-    adCountDisplay.innerText = count;
-
-    btn.addEventListener('click', () => {
-        status.innerText = "⌛ ကြော်ငြာ ဖွင့်ပေးနေပါသည်...";
-        status.style.color = '#333';
-        btn.disabled = true;
-
-        const adLink = "https://www.profitablecpmratenetwork.com/h50je0pquw?key=37802b0758da1c68241394088c16e4a2";
-        const newWindow = window.open(adLink, '_blank');
-
-        if (newWindow) {
-            setTimeout(() => {
-                count++;
-                // ဖုန်းထဲမှာ အကြိမ်ရေကို အသစ်ပြန်သိမ်းမယ်
-                localStorage.setItem('ad_count', count);
-                
-                adCountDisplay.innerText = count;
-                status.innerText = "✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်";
-                status.style.color = 'green';
-                btn.disabled = false;
-            }, 5000); // ၅ စက္ကန့် စောင့်ခိုင်းထားပါတယ်
-        } else {
-            status.innerText = "⚠️ Pop-up Block ဖြစ်နေပါသည်၊ ခွင့်ပြုပေးပါ။";
-            status.style.color = 'orange';
-            btn.disabled = false;
-        }
-    });
-</script>
 
 </body>
 </html>
