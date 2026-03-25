@@ -5,33 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reward App</title>
     <style>
-        body { font-family: 'Pyidaungsu', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 320px; border: 1px solid #ddd; }
-        h1 { color: #007bff; font-size: 26px; margin-bottom: 15px; }
-        p { color: #555; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
-        .btn { background: linear-gradient(135deg, #ff9800, #f44336); color: white; border: none; padding: 18px 30px; font-size: 20px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4); }
-        .btn:active { transform: scale(0.95); }
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 320px; }
+        h1 { color: #007bff; margin-bottom: 15px; }
+        p { color: #555; margin-bottom: 25px; line-height: 1.5; }
+        .btn { background: linear-gradient(135deg, #ff9800, #f44336); color: white; border: none; padding: 18px 30px; font-size: 20px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4); }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h1>ဆုလာဘ်ရယူရန်</h1>
-    <p>အောက်ကခလုတ်ကို နှိပ်ပြီး ကြော်ငြာကြည့်ပေးပါ။ ကြော်ငြာပြီးဆုံးပါက သင်၏ဆုလာဘ်ကို ရရှိပါလိမ့်မည်။</p>
-    
+    <p>အောက်ကခလုတ်ကို နှိပ်ပြီး ကြော်ငြာကြည့်ပေးပါ။ ကြော်ငြာပြီးဆုံးပါက သင့်ဆုလာဘ်ကို ရရှိပါလိမ့်မည်။</p>
     <button onclick="openAd()" class="btn">ကြော်ငြာကြည့်မည်</button>
 </div>
 
 <script>
     function openAd() {
-        // သင့်ရဲ့ Monetag Direct Link ကို ဒီမှာ ထည့်ထားပါတယ်
-        var myAdLink = "https://omg10.com/4/10785178";
-        
-        // ကြော်ငြာကို Tab အသစ်နဲ့ ဖွင့်ပေးမယ်
-        window.open(myAdLink, '_blank');
-        
-        // မူရင်း Page မှာ စာသားပြောင်းပေးမယ်
-        document.querySelector('p').innerHTML = "ကြော်ငြာကြည့်တာ အောင်မြင်ပါက ဆုလာဘ်ရရှိပါမည်။ ✅";
+        // သင့်ရဲ့ Monetag Link ကို ဒီမှာ ထည့်ထားပါတယ်
+        window.location.href = "https://omg10.com/4/10785178";
     }
 </script>
 
