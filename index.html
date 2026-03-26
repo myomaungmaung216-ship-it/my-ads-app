@@ -10,8 +10,7 @@
         .counter-box { background: #eef2f7; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #0388cc; }
         .counter-label { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
         #count-num { font-size: 48px; font-weight: bold; color: #0388cc; }
-        .ad-button { background: linear-gradient(135deg, #0388cc, #025a87); color: white; border: none; padding: 18px 20px; border-radius: 50px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3); }
-        .ad-button:active { transform: scale(0.95); }
+        .ad-button { background: linear-gradient(135deg, #0388cc, #025a87); color: white; border: none; padding: 18px 20px; border-radius: 50px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3); }
     </style>
 </head>
 <body>
@@ -21,20 +20,20 @@
         <span class="counter-label">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
         <span id="count-num">0</span>
     </div>
-    <button id="adBtn" class="ad-button" onclick="startAd()">ကြော်ငြာကြည့်မည်</button>
+    <button class="ad-button" onclick="goAd()">ကြော်ငြာကြည့်မည်</button>
 </div>
 
 <script>
-    // သိမ်းထားတဲ့ အကြိမ်ရေကို ပြန်ယူမယ်
+    // အကြိမ်ရေကို ဖုန်းမှတ်ဉာဏ်ကနေ ပြန်ယူမယ်
     let count = localStorage.getItem('userAdCount') || 0;
     document.getElementById('count-num').innerText = count;
 
-    function startAd() {
-        // သင့်ရဲ့ Monetag Direct Link အသစ်
-        const monetagLink = "https://omg10.com/4/10787745";
+    function goAd() {
+        // သင့်ရဲ့ Monetag Direct Link
+        const myLink = "https://omg10.com/4/10787745";
         
         // ကြော်ငြာကို ဖွင့်ပေးမယ်
-        window.open(monetagLink, '_blank');
+        window.open(myLink, '_blank');
 
         // အရေအတွက်ကို ၁ တိုးပြီး သိမ်းမယ်
         count++;
