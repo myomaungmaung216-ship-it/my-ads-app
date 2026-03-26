@@ -3,44 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reward Counter</title>
+    <title>Play & Earn</title>
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
         .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
-        .counter-box { background: #eef2f7; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #0388cc; }
-        #count-num { font-size: 50px; font-weight: bold; color: #0388cc; display: block; }
-        .ad-button { background: #0388cc; color: white; border: none; padding: 18px 0; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
-        .ad-button:active { transform: scale(0.98); background: #02699d; }
+        .timer-box { background: #fff3e0; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #ff9800; }
+        #timer-display { font-size: 40px; font-weight: bold; color: #e65100; }
+        .point-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #2196f3; }
+        #point-display { font-size: 30px; font-weight: bold; color: #1565c0; }
+        .msg { font-size: 14px; color: #666; margin-bottom: 5px; display: block; }
+        .btn { background: #4caf50; color: white; border: none; padding: 15px 0; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="counter-box">
-        <span style="color: #666; font-size: 14px;">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
-        <span id="count-num">0</span>
+    <div class="timer-box">
+        <span class="msg">ဆော့ကစားနေသည့်အချိန်</span>
+        <span id="timer-display">00:00</span>
     </div>
-    <button class="ad-button" id="mainBtn">ကြော်ငြာကြည့်မည်</button>
+
+    <div class="point-box">
+        <span class="msg">ရရှိထားသည့် အမှတ်</span>
+        <span id="point-display">0</span>
+    </div>
+
+    <p style="font-size: 13px; color: #888;">App ကို ဖွင့်ထားလေလေ အမှတ်တွေ တက်လာလေလေ ဖြစ်ပါမည်။</p>
+    <button class="btn" onclick="claimReward()">ဆုလာဘ်ထုတ်ယူမည်</button>
 </div>
 
 <script>
-    // အကြိမ်ရေကို ဖုန်းထဲမှာ သိမ်းမယ်
-    let count = localStorage.getItem('userAdCount') || 0;
-    document.getElementById('count-num').innerText = count;
+    let seconds = 0;
+    let points = parseInt(localStorage.getItem('userPoints')) || 0;
+    document.getElementById('point-display').innerText = points;
 
-    document.getElementById('mainBtn').addEventListener('click', function() {
-        const myLink = "https://omg10.com/4/10787745";
-        
-        // အကြိမ်ရေကို အရင်တိုးမယ်
-        count++;
-        document.getElementById('count-num').innerText = count;
-        localStorage.setItem('userAdCount', count);
+    // စက္ကန့်တိုင်း အချိန်မှတ်မည့်စနစ်
+    setInterval(() => {
+        seconds++;
+        let mins = Math.floor(seconds / 60);
+        let secs = seconds % 60;
+        document.getElementById('timer-display').innerText = 
+            (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs);
 
-        // ကြော်ငြာကို window.location နဲ့ တိုက်ရိုက် တွန်းပို့မယ်
-        // ဒါက Browser က Block ဖို့ ပိုခက်ပါတယ်
-        window.location.replace(myLink);
-    });
+        // ၁၀ စက္ကန့်ပြည့်တိုင်း ၁ မှတ် တိုးပေးမည် (စိတ်ကြိုက်ပြင်နိုင်သည်)
+        if (seconds % 10 === 0) {
+            points++;
+            document.getElementById('point-display').innerText = points;
+            localStorage.setItem('userPoints', points);
+        }
+    }, 1000);
+
+    function claimReward() {
+        alert("သင့်တွင် စုစုပေါင်း အမှတ် " + points + " ရှိပါသည်။ ဆုလာဘ်လဲလှယ်ရန် Admin ကို ဆက်သွယ်ပါ။");
+    }
 </script>
 
 </body>
 </html>
+
