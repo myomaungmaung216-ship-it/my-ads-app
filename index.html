@@ -3,61 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play & Earn</title>
+    <title>Earn Points</title>
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
-        .timer-box { background: #fff3e0; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #ff9800; }
-        #timer-display { font-size: 40px; font-weight: bold; color: #e65100; }
-        .point-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #2196f3; }
-        #point-display { font-size: 30px; font-weight: bold; color: #1565c0; }
-        .msg { font-size: 14px; color: #666; margin-bottom: 5px; display: block; }
-        .btn { background: #4caf50; color: white; border: none; padding: 15px 0; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+        .info-box { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .label { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
+        .value { font-size: 32px; font-weight: bold; color: #0388cc; }
+        .btn { background-color: #0388cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="timer-box">
-        <span class="msg">ဆော့ကစားနေသည့်အချိန်</span>
-        <span id="timer-display">00:00</span>
+    <div class="info-box">
+        <span class="label">ဆော့ကစားချိန်</span>
+        <span id="timer" class="value">00:00</span>
+    </div>
+    
+    <div class="info-box">
+        <span class="label">ရရှိထားသော အမှတ်</span>
+        <span id="points" class="value">0</span>
     </div>
 
-    <div class="point-box">
-        <span class="msg">ရရှိထားသည့် အမှတ်</span>
-        <span id="point-display">0</span>
-    </div>
-
-    <p style="font-size: 13px; color: #888;">App ကို ဖွင့်ထားလေလေ အမှတ်တွေ တက်လာလေလေ ဖြစ်ပါမည်။</p>
-    <button class="btn" onclick="claimReward()">ဆုလာဘ်ထုတ်ယူမည်</button>
+    <button class="btn" onclick="alert('Admin ကို ဆက်သွယ်ပြီး ဆုလာဘ်လဲလှယ်ပါ')">ဆုလာဘ်ထုတ်ယူမည်</button>
 </div>
 
 <script>
     let seconds = 0;
-    let points = parseInt(localStorage.getItem('userPoints')) || 0;
-    document.getElementById('point-display').innerText = points;
+    let points = parseInt(localStorage.getItem('myAppPoints')) || 0;
+    document.getElementById('points').innerText = points;
 
-    // စက္ကန့်တိုင်း အချိန်မှတ်မည့်စနစ်
+    // အချိန်မှတ်ပြီး အမှတ်တိုးပေးမည့်စနစ်
     setInterval(() => {
         seconds++;
-        let mins = Math.floor(seconds / 60);
-        let secs = seconds % 60;
-        document.getElementById('timer-display').innerText = 
-            (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs);
+        
+        // အချိန်ပြောင်းလဲခြင်း (MM:SS)
+        let m = Math.floor(seconds / 60);
+        let s = seconds % 60;
+        document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
 
-        // ၁၀ စက္ကန့်ပြည့်တိုင်း ၁ မှတ် တိုးပေးမည် (စိတ်ကြိုက်ပြင်နိုင်သည်)
-        if (seconds % 10 === 0) {
+        // စက္ကန့် ၃၀ ပြည့်တိုင်း ၁ မှတ် ပေးမယ် (စိတ်ကြိုက်ပြင်နိုင်သည်)
+        if (seconds % 30 === 0) {
             points++;
-            document.getElementById('point-display').innerText = points;
-            localStorage.setItem('userPoints', points);
+            document.getElementById('points').innerText = points;
+            localStorage.setItem('myAppPoints', points);
         }
     }, 1000);
-
-    function claimReward() {
-        alert("သင့်တွင် စုစုပေါင်း အမှတ် " + points + " ရှိပါသည်။ ဆုလာဘ်လဲလှယ်ရန် Admin ကို ဆက်သွယ်ပါ။");
-    }
 </script>
 
 </body>
 </html>
-
