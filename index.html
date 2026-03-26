@@ -5,49 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad Counter App</title>
     <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 85%;
-            max-width: 320px;
-        }
-        .counter-box {
-            background: #eef2f7;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border: 2px solid #0388cc;
-        }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+        .counter-box { background: #eef2f7; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #0388cc; }
         .counter-label { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
         #count-num { font-size: 48px; font-weight: bold; color: #0388cc; }
-        
-        .ad-button {
-            background: linear-gradient(135deg, #0388cc, #025a87);
-            color: white;
-            border: none;
-            padding: 18px 20px;
-            border-radius: 50px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3);
-        }
+        .ad-button { background: linear-gradient(135deg, #0388cc, #025a87); color: white; border: none; padding: 18px 20px; border-radius: 50px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3); }
         .ad-button:active { transform: scale(0.95); }
-        #status { margin-top: 15px; font-size: 13px; color: #888; }
     </style>
 </head>
 <body>
@@ -57,39 +21,26 @@
         <span class="counter-label">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
         <span id="count-num">0</span>
     </div>
-
-    <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
-    <div id="status">ခလုတ်ကိုနှိပ်ပြီး ကြော်ငြာကြည့်ပါ</div>
+    <button id="adBtn" class="ad-button" onclick="startAd()">ကြော်ငြာကြည့်မည်</button>
 </div>
 
 <script>
-    // ဖုန်းမှတ်ဉာဏ်ထဲမှာ အကြိမ်ရေကို သိမ်းဆည်းထားခြင်း
+    // သိမ်းထားတဲ့ အကြိမ်ရေကို ပြန်ယူမယ်
     let count = localStorage.getItem('userAdCount') || 0;
     document.getElementById('count-num').innerText = count;
 
-    const btn = document.getElementById('adBtn');
-    const status = document.getElementById('status');
-
-    btn.addEventListener('click', () => {
-        // သင်ပေးထားတဲ့ Monetag Link အသစ်ကို ဒီမှာ ထည့်ပေးထားပါတယ်
+    function startAd() {
+        // သင့်ရဲ့ Monetag Direct Link အသစ်
         const monetagLink = "https://omg10.com/4/10787745";
         
-        status.innerText = '⌛ ကြော်ငြာဆီသို့ သွားနေပါသည်...';
-        
-        // ကြော်ငြာကို Tab အသစ်နဲ့ ဖွင့်ပေးမယ်
+        // ကြော်ငြာကို ဖွင့်ပေးမယ်
         window.open(monetagLink, '_blank');
 
-        // အရေအတွက်ကို ၁ တိုးမယ်
+        // အရေအတွက်ကို ၁ တိုးပြီး သိမ်းမယ်
         count++;
         document.getElementById('count-num').innerText = count;
-        
-        // ဖုန်းထဲမှာ အမြဲတမ်း သိမ်းထားမယ် (Refresh လုပ်ရင်လည်း မပျောက်အောင်)
         localStorage.setItem('userAdCount', count);
-
-        setTimeout(() => {
-            status.innerText = '✅ ကြော်ငြာကြည့်မှု မှတ်တမ်းတင်ပြီးပါပြီ။';
-        }, 2000);
-    });
+    }
 </script>
 
 </body>
