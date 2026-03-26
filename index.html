@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Counter</title>
+    <title>Reward Counter</title>
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
-        .card { background: white; padding: 35px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+        .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
         .counter-box { background: #eef2f7; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #0388cc; }
         #count-num { font-size: 50px; font-weight: bold; color: #0388cc; display: block; }
-        .ad-button { background: #0388cc; color: white; border: none; padding: 18px 0; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; }
-        .ad-button:active { transform: scale(0.95); }
+        .ad-button { background: #0388cc; color: white; border: none; padding: 18px 0; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+        .ad-button:active { transform: scale(0.98); background: #02699d; }
     </style>
 </head>
 <body>
@@ -20,26 +20,26 @@
         <span style="color: #666; font-size: 14px;">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
         <span id="count-num">0</span>
     </div>
-    <button class="ad-button" onclick="openAd()">ကြော်ငြာကြည့်မည်</button>
+    <button class="ad-button" id="mainBtn">ကြော်ငြာကြည့်မည်</button>
 </div>
 
 <script>
-    // အကြိမ်ရေကို ဖုန်းထဲမှာ သိမ်းထားမယ်
+    // အကြိမ်ရေကို ဖုန်းထဲမှာ သိမ်းမယ်
     let count = localStorage.getItem('userAdCount') || 0;
     document.getElementById('count-num').innerText = count;
 
-    function openAd() {
-        // သင့်ရဲ့ Link အသစ်ကို ဒီမှာ သေချာထည့်ပေးထားပါတယ်
+    document.getElementById('mainBtn').addEventListener('click', function() {
         const myLink = "https://omg10.com/4/10787745";
         
-        // Link ကို Browser မှာ တန်းဖွင့်မယ်
-        window.open(myLink, '_blank');
-
-        // အကြိမ်ရေကို ၁ တိုးမယ်
+        // အကြိမ်ရေကို အရင်တိုးမယ်
         count++;
         document.getElementById('count-num').innerText = count;
         localStorage.setItem('userAdCount', count);
-    }
+
+        // ကြော်ငြာကို window.location နဲ့ တိုက်ရိုက် တွန်းပို့မယ်
+        // ဒါက Browser က Block ဖို့ ပိုခက်ပါတယ်
+        window.location.replace(myLink);
+    });
 </script>
 
 </body>
