@@ -3,51 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Counter</title>
+    <title>Ad App</title>
+    <script src='https://libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 320px; width: 90%; }
-        h2 { color: #333; margin-bottom: 20px; }
-        .counter-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 20px; border-radius: 15px; margin-bottom: 25px; }
-        .count-text { font-size: 18px; color: #555; }
-        #count-num { font-size: 40px; font-weight: bold; color: #007bff; display: block; }
-        .btn { background: linear-gradient(135deg, #ff9d00, #f44336); color: white; border: none; padding: 18px 0; font-size: 20px; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 15px rgba(255, 157, 0, 0.4); }
+        body {
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 85%;
+            max-width: 320px;
+        }
+        .ad-button {
+            background-color: #0388cc;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .ad-button:active { transform: scale(0.95); }
+        #status { margin-top: 20px; font-weight: bold; font-size: 14px; min-height: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>ကြော်ငြာကြည့်ရှုမှု</h2>
-    
-    <div class="counter-box">
-        <span class="count-text">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
-        <span id="count-num">0</span>
-    </div>
-
-    <button onclick="watchAd()" class="btn">ကြော်ငြာကြည့်မည်</button>
+    <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
+    <div id="status"></div>
 </div>
 
 <script>
-    // ဖုန်းထဲမှာ ကြည့်ပြီးသားအရေအတွက်ကို မှတ်ထားပေးဖို့
-    let count = localStorage.getItem('adCount') || 0;
-    document.getElementById('count-num').innerText = count;
+    const btn = document.getElementById('adBtn');
+    const status = document.getElementById('status');
 
-    function watchAd() {
-        // Monetag Link (သင့် Link ကို ဒီမှာ ထည့်ထားပါတယ်)
-        var adLink = "https://omg10.com/4/10785178";
+    btn.addEventListener('click', () => {
+        status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
+        status.style.color = '#333';
         
-        // ကြော်ငြာ link ကို ဖွင့်ပေးမယ်
-        window.open(adLink, '_blank');
-
-        // အရေအတွက်ကို ၁ တိုးမယ်
-        count++;
-        document.getElementById('count-num').innerText = count;
-        
-        // ဖုန်းထဲမှာ သိမ်းထားမယ် (Refresh လုပ်ရင်လည်း ဂဏန်းမပျောက်အောင်)
-        localStorage.setItem('adCount', count);
-    }
+        if (typeof show_10761454 === 'function') {
+            show_10761454().then(() => {
+                status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
+                status.style.color = 'green';
+            }).catch((err) => {
+                status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
+                status.style.color = 'red';
+            });
+        } else {
+            status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
+            status.style.color = 'orange';
+        }
+    });
 </script>
 
 </body>
 </html>
-
