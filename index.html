@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTHADGRAM Ad Center</title>
+    <title>Ad Counter</title>
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
+        .card { background: white; padding: 35px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 320px; }
         .counter-box { background: #eef2f7; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #0388cc; }
-        .counter-label { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
-        #count-num { font-size: 48px; font-weight: bold; color: #0388cc; }
-        .ad-button { background: linear-gradient(135deg, #0388cc, #025a87); color: white; border: none; padding: 18px 20px; border-radius: 50px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3); }
+        #count-num { font-size: 50px; font-weight: bold; color: #0388cc; display: block; }
+        .ad-button { background: #0388cc; color: white; border: none; padding: 18px 0; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; width: 100%; }
         .ad-button:active { transform: scale(0.95); }
     </style>
 </head>
@@ -18,25 +17,25 @@
 
 <div class="card">
     <div class="counter-box">
-        <span class="counter-label">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
+        <span style="color: #666; font-size: 14px;">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
         <span id="count-num">0</span>
     </div>
-    <button class="ad-button" onclick="openDirectLink()">ကြော်ငြာကြည့်မည်</button>
+    <button class="ad-button" onclick="openAd()">ကြော်ငြာကြည့်မည်</button>
 </div>
 
 <script>
-    // အရေအတွက်ကို သိမ်းထားမယ်
+    // အကြိမ်ရေကို ဖုန်းထဲမှာ သိမ်းထားမယ်
     let count = localStorage.getItem('userAdCount') || 0;
     document.getElementById('count-num').innerText = count;
 
-    function openDirectLink() {
-        // သင့်ရဲ့ နောက်ဆုံး Monetag Link
+    function openAd() {
+        // သင့်ရဲ့ Link အသစ်ကို ဒီမှာ သေချာထည့်ပေးထားပါတယ်
         const myLink = "https://omg10.com/4/10787745";
         
-        // Browser က ကြော်ငြာကို တိုက်ရိုက်သွားဖို့ window.open သုံးခြင်း
+        // Link ကို Browser မှာ တန်းဖွင့်မယ်
         window.open(myLink, '_blank');
 
-        // အရေအတွက်ကို ၁ ပေါင်းမယ်
+        // အကြိမ်ရေကို ၁ တိုးမယ်
         count++;
         document.getElementById('count-num').innerText = count;
         localStorage.setItem('userAdCount', count);
