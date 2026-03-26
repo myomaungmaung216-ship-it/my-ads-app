@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad App</title>
-    <script src='https://libtl.com/sdk.js' data-zone='10761454' data-sdk='show_10761454'></script>
+    <title>Ad Counter App</title>
     <style>
         body {
             font-family: sans-serif;
@@ -18,55 +17,78 @@
         .card {
             background: white;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             text-align: center;
             width: 85%;
             max-width: 320px;
         }
+        .counter-box {
+            background: #eef2f7;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 2px solid #0388cc;
+        }
+        .counter-label { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
+        #count-num { font-size: 48px; font-weight: bold; color: #0388cc; }
+        
         .ad-button {
-            background-color: #0388cc;
+            background: linear-gradient(135deg, #0388cc, #025a87);
             color: white;
             border: none;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-size: 18px;
+            padding: 18px 20px;
+            border-radius: 50px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(3, 136, 204, 0.3);
         }
         .ad-button:active { transform: scale(0.95); }
-        #status { margin-top: 20px; font-weight: bold; font-size: 14px; min-height: 20px; }
+        #status { margin-top: 15px; font-size: 13px; color: #888; }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="counter-box">
+        <span class="counter-label">ကြည့်ပြီးသည့်အကြိမ်ရေ</span>
+        <span id="count-num">0</span>
+    </div>
+
     <button id="adBtn" class="ad-button">ကြော်ငြာကြည့်မည်</button>
-    <div id="status"></div>
+    <div id="status">ခလုတ်ကိုနှိပ်ပြီး ကြော်ငြာကြည့်ပါ</div>
 </div>
 
 <script>
+    // ဖုန်းမှတ်ဉာဏ်ထဲမှာ အကြိမ်ရေကို သိမ်းဆည်းထားခြင်း
+    let count = localStorage.getItem('userAdCount') || 0;
+    document.getElementById('count-num').innerText = count;
+
     const btn = document.getElementById('adBtn');
     const status = document.getElementById('status');
 
     btn.addEventListener('click', () => {
-        status.innerText = '⌛ ကြော်ငြာ ရှာဖွေနေပါသည်...';
-        status.style.color = '#333';
+        // သင်ပေးထားတဲ့ Monetag Link အသစ်ကို ဒီမှာ ထည့်ပေးထားပါတယ်
+        const monetagLink = "https://omg10.com/4/10787745";
         
-        if (typeof show_10761454 === 'function') {
-            show_10761454().then(() => {
-                status.innerText = '✅ ကြော်ငြာကြည့်တာ အောင်မြင်ပါသည်။';
-                status.style.color = 'green';
-            }).catch((err) => {
-                status.innerText = '❌ ကြော်ငြာပြရန် အဆင်မပြေပါ။';
-                status.style.color = 'red';
-            });
-        } else {
-            status.innerText = '❌ SDK မတက်သေးပါ။ ခဏနေမှ ပြန်နှိပ်ပါ။';
-            status.style.color = 'orange';
-        }
+        status.innerText = '⌛ ကြော်ငြာဆီသို့ သွားနေပါသည်...';
+        
+        // ကြော်ငြာကို Tab အသစ်နဲ့ ဖွင့်ပေးမယ်
+        window.open(monetagLink, '_blank');
+
+        // အရေအတွက်ကို ၁ တိုးမယ်
+        count++;
+        document.getElementById('count-num').innerText = count;
+        
+        // ဖုန်းထဲမှာ အမြဲတမ်း သိမ်းထားမယ် (Refresh လုပ်ရင်လည်း မပျောက်အောင်)
+        localStorage.setItem('userAdCount', count);
+
+        setTimeout(() => {
+            status.innerText = '✅ ကြော်ငြာကြည့်မှု မှတ်တမ်းတင်ပြီးပါပြီ။';
+        }, 2000);
     });
 </script>
 
