@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTH ADGRAM - English Version</title>
+    <title>MTH ADGRAM - English</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
         .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
         .score-box { background: #e1f5fe; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #b3e5fc; }
         .points-text { font-size: 45px; font-weight: bold; color: #0277bd; }
@@ -22,7 +22,7 @@
 
 <div class="card">
     <h2 style="color:#333; margin-bottom:5px;">MTH ADGRAM</h2>
-    <p class="timer-note">1 Point will be added automatically every 1 minute</p>
+    <p class="timer-note">1 Point is added automatically every 1 minute</p>
 
     <div class="score-box">
         <div style="font-size:14px; color:#546e7a; margin-bottom:5px;">TOTAL BALANCE</div>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="withdraw-section">
-        <label>Withdraw Amount</label>
+        <label>Withdraw Amount (Min: 1)</label>
         <input type="number" id="amount" placeholder="Example: 100" oninput="calculateTon()">
 
         <div id="tonResult" class="ton-info">Receive: 0.000000 TON</div>
@@ -47,14 +47,14 @@
 </div>
 
 <script>
-    let points = parseInt(localStorage.getItem('mth_eng_points')) || 0;
+    let points = parseInt(localStorage.getItem('mth_v4_points')) || 0;
     document.getElementById('pointsDisplay').innerText = points;
 
-    // Timer: 1 point per 1 minute (60000ms)
+    // Timer: 1 point per 1 minute
     setInterval(() => {
         points++;
         document.getElementById('pointsDisplay').innerText = points;
-        localStorage.setItem('mth_eng_points', points);
+        localStorage.setItem('mth_v4_points', points);
         calculateTon();
     }, 60000);
 
@@ -75,6 +75,11 @@
             return;
         }
 
+        if (parseInt(amountVal) < 1) {
+            alert("Minimum withdrawal is 1 Coin.");
+            return;
+        }
+
         if (parseInt(amountVal) > points) {
             alert("Insufficient balance.");
             return;
@@ -89,12 +94,10 @@
             if (res.ok) {
                 alert("Withdrawal request sent successfully!");
                 points -= parseInt(amountVal);
-                localStorage.setItem('mth_eng_points', points);
+                localStorage.setItem('mth_v4_points', points);
                 document.getElementById('pointsDisplay').innerText = points;
                 document.getElementById('amount').value = "";
                 calculateTon();
-            } else {
-                alert("Error sending request. Please check your connection.");
             }
         });
     }
