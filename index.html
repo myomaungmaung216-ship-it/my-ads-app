@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTH ADGRAM - Accurate Mining</title>
+    <title>MTH ADGRAM - English</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
         .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
@@ -14,7 +14,7 @@
         input { width: 100%; padding: 12px; margin: 8px 0 5px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 14px; }
         .min-text { font-size: 11px; color: #d32f2f; margin-bottom: 15px; font-weight: bold; margin-left: 5px; display: block; }
         .ton-info { background: #fff9c4; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-size: 14px; color: #f57f17; font-weight: bold; border: 1px solid #fff176; }
-        .btn-withdraw { background: #0088cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-withdraw { background: #0088cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; }
         .status-note { font-size: 11px; color: #4caf50; font-weight: bold; margin-bottom: 15px; }
     </style>
 </head>
@@ -48,40 +48,33 @@
 </div>
 
 <script>
-    // Point နှင့် အချိန်ကို တိတိကျကျ တွက်ချက်ခြင်း
-    let points = parseFloat(localStorage.getItem('mth_precise_points')) || 0;
-    let lastTime = parseInt(localStorage.getItem('mth_precise_time')) || Date.now();
+    // Storage Keys - နာမည်အသစ်ပေးထားပါတယ် (Data အဟောင်းတွေနဲ့ မရောအောင်)
+    const STORAGE_KEY_POINTS = 'mth_final_points_fixed';
+    const STORAGE_KEY_TIME = 'mth_final_time_fixed';
 
-    // App ပြန်ဖွင့်ချိန်မှာ ကြားထဲကအချိန်အတွက် အမှတ်ပေါင်းပေးခြင်း
-    const currentTime = Date.now();
-    const timeDiffMinutes = (currentTime - lastTime) / 60000;
-    
-    if (timeDiffMinutes >= 1) {
-        points += Math.floor(timeDiffMinutes);
-        lastTime = currentTime - (timeDiffMinutes % 1 * 60000); // ကျန်နေတဲ့ စက္ကန့်ကို နောက်အတွက် သိမ်းထားရန်
-    }
+    let points = parseInt(localStorage.getItem(STORAGE_KEY_POINTS)) || 0;
+    let lastTime = parseInt(localStorage.getItem(STORAGE_KEY_TIME)) || Date.now();
 
-    updateUI();
-
-    // App ဖွင့်ထားစဉ် ၁ မိနစ် (60000ms) ပြည့်မှ ၁ မှတ် တိုးစေရန်
-    setInterval(() => {
-        points++;
-        lastTime = Date.now();
-        updateUI();
-        saveData();
-    }, 60000);
-
-    function updateUI() {
-        document.getElementById('pointsDisplay').innerText = Math.floor(points);
+    function updatePoints() {
+        const currentTime = Date.now();
+        const secondsPassed = Math.floor((currentTime - lastTime) / 1000);
+        
+        if (secondsPassed >= 60) {
+            const minutesToGain = Math.floor(secondsPassed / 60);
+            points += minutesToGain;
+            lastTime += minutesToGain * 60 * 1000; // နောက်ဆုံး Point တက်ခဲ့တဲ့အချိန်ကိုပဲ မှတ်ထားမယ်
+            saveData();
+        }
+        document.getElementById('pointsDisplay').innerText = points;
     }
 
     function saveData() {
-        localStorage.setItem('mth_precise_points', points);
-        localStorage.setItem('mth_precise_time', lastTime);
+        localStorage.setItem(STORAGE_KEY_POINTS, points);
+        localStorage.setItem(STORAGE_KEY_TIME, lastTime);
     }
 
-    // App ပိတ်သွားလျှင်လည်း အချိန်မှတ်ထားရန်
-    window.addEventListener("beforeunload", saveData);
+    // ၁ စက္ကန့်တစ်ခါ အချိန်ကို စစ်ဆေးမယ် (ဒါပေမယ့် ၆၀ စက္ကန့်ပြည့်မှ ၁ မှတ်တိုးမယ်)
+    setInterval(updatePoints, 1000);
 
     function calculateTon() {
         const inputAmount = document.getElementById('amount').value || 0;
@@ -109,10 +102,15 @@
                 alert("Withdrawal request sent!");
                 points -= parseInt(amountVal);
                 saveData();
-                updateUI();
+                document.getElementById('pointsDisplay').innerText = points;
+                document.getElementById('amount').value = "";
+                calculateTon();
             }
         });
     }
+
+    // Initial load
+    updatePoints();
 </script>
 
 </body>
