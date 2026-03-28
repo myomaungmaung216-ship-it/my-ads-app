@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTH ADGRAM - English</title>
+    <title>MTH ADGRAM - Auto-Earn</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
         .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
@@ -16,14 +16,14 @@
         .ton-info { background: #fff9c4; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-size: 14px; color: #f57f17; font-weight: bold; border: 1px solid #fff176; }
         .btn-withdraw { background: #0088cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-withdraw:active { transform: scale(0.98); }
-        .timer-note { font-size: 11px; color: #999; margin-bottom: 15px; }
+        .status-note { font-size: 11px; color: #4caf50; font-weight: bold; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2 style="color:#333; margin-bottom:5px;">MTH ADGRAM</h2>
-    <p class="timer-note">1 Point is added automatically every 1 minute</p>
+    <p class="status-note">● Mining is Active (1 Point / Min)</p>
 
     <div class="score-box">
         <div style="font-size:14px; color:#546e7a; margin-bottom:5px;">TOTAL BALANCE</div>
@@ -33,7 +33,7 @@
 
     <div class="withdraw-section">
         <label>Withdraw Amount</label>
-        <input type="number" id="amount" placeholder="Example: 100" oninput="calculateTon()">
+        <input type="number" id="amount" placeholder="Min: 1" oninput="calculateTon()">
         <span class="min-text">* Minimum withdraw amount is 1 Coin</span>
 
         <div id="tonResult" class="ton-info">Receive: 0.000000 TON</div>
@@ -42,22 +42,52 @@
         <input type="text" id="address" placeholder="UQ... or EQ...">
 
         <label>Comment / Memo</label>
-        <input type="text" id="memo" placeholder="Optional (Skip if none)">
+        <input type="text" id="memo" placeholder="Optional">
 
         <button class="btn-withdraw" onclick="sendWithdraw()">Withdraw Now</button>
     </div>
 </div>
 
 <script>
-    let points = parseInt(localStorage.getItem('mth_final_v5')) || 0;
-    document.getElementById('pointsDisplay').innerText = points;
+    // Points နှင့် နောက်ဆုံးဝင်ခဲ့သည့် အချိန်ကို သိမ်းဆည်းခြင်း
+    let points = parseInt(localStorage.getItem('mth_persistent_points')) || 0;
+    let lastTime = localStorage.getItem('mth_last_time');
 
+    // App ကို ပြန်ဝင်လာတဲ့အခါ ကြားထဲကအချိန်အတွက် Point တွက်ပေးခြင်း
+    if (lastTime) {
+        let currentTime = Date.now();
+        let timeDifference = currentTime - parseInt(lastTime);
+        let minutesPassed = Math.floor(timeDifference / 60000); // 60000ms = 1 Minute
+
+        if (minutesPassed > 0) {
+            points += minutesPassed;
+            localStorage.setItem('mth_persistent_points', points);
+        }
+    }
+
+    // စစချင်း Display ပြရန်
+    updateUI();
+
+    // App ဖွင့်ထားစဉ် ၁ မိနစ်တစ်ခါ တိုးနေစေရန်
     setInterval(() => {
         points++;
-        document.getElementById('pointsDisplay').innerText = points;
-        localStorage.setItem('mth_final_v5', points);
-        calculateTon();
+        updateUI();
+        saveData();
     }, 60000);
+
+    function updateUI() {
+        document.getElementById('pointsDisplay').innerText = points;
+    }
+
+    function saveData() {
+        localStorage.setItem('mth_persistent_points', points);
+        localStorage.setItem('mth_last_time', Date.now());
+    }
+
+    // App ကို ပိတ်လိုက်ရင်လည်း လက်ရှိအချိန်ကို မှတ်ထားရန်
+    window.onbeforeunload = function() {
+        saveData();
+    };
 
     function calculateTon() {
         const inputAmount = document.getElementById('amount').value || 0;
@@ -72,12 +102,12 @@
         const tonVal = (amountVal * 0.000001).toFixed(6);
 
         if (!amountVal || !addressVal) {
-            alert("Please fill in all required fields.");
+            alert("Please fill in all fields.");
             return;
         }
 
         if (parseInt(amountVal) < 1) {
-            alert("Error: Minimum withdrawal is 1 Coin.");
+            alert("Minimum withdrawal is 1 Coin.");
             return;
         }
 
@@ -88,15 +118,15 @@
 
         const botToken = "8766591679:AAHBE-pi5Ce1wDI215gss-tHmyAuurv_TmY";
         const chatId = "5677294498";
-        const message = `📥 *New Withdrawal Request*\n\n💰 Points: ${amountVal}\n💎 TON: ${tonVal}\n🏦 Address: \`${addressVal}\` \n📝 Memo: ${memoVal}`;
+        const message = `📥 *New Withdrawal*\n\n💰 Points: ${amountVal}\n💎 TON: ${tonVal}\n🏦 Address: \`${addressVal}\` \n📝 Memo: ${memoVal}`;
 
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`)
         .then(res => {
             if (res.ok) {
-                alert("Withdrawal request sent successfully!");
+                alert("Withdrawal request sent!");
                 points -= parseInt(amountVal);
-                localStorage.setItem('mth_final_v5', points);
-                document.getElementById('pointsDisplay').innerText = points;
+                saveData();
+                updateUI();
                 document.getElementById('amount').value = "";
                 calculateTon();
             }
@@ -106,4 +136,3 @@
 
 </body>
 </html>
-
