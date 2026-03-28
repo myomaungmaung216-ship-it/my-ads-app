@@ -3,65 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTH ADGRAM - Reward App</title>
-    
-    <script src="https://sdk.honeygain.com/static/js/sdk.js"></script>
-
+    <title>MTH ADGRAM - TON Withdraw</title>
     <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 350px; }
-        .info-box { background: #f8f9fa; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-        .label { font-size: 13px; color: #666; display: block; margin-bottom: 5px; }
-        .value { font-size: 28px; font-weight: bold; color: #0388cc; }
-        .btn { background: #0388cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: #f4f7f6; margin: 0; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 380px; }
+        .header-title { margin-top: 0; color: #0088cc; font-size: 22px; }
+        .info-box { background: #e1f5fe; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #b3e5fc; }
+        .label { font-size: 13px; color: #546e7a; display: block; }
+        .value { font-size: 32px; font-weight: bold; color: #0277bd; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { font-size: 12px; color: #666; margin-left: 5px; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #0088cc; }
+        .btn { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .note { font-size: 11px; color: #90a4ae; margin-top: 15px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 style="margin-top:0;">MTH ADGRAM</h2>
+    <h2 class="header-title">MTH ADGRAM</h2>
     
     <div class="info-box">
-        <span class="label">ယနေ့ဆော့ကစားချိန်</span>
-        <span id="timer" class="value">00:00</span>
-    </div>
-    
-    <div class="info-box">
-        <span class="label">ရရှိထားသော အမှတ်</span>
+        <span class="label">သင်၏ လက်ရှိအမှတ်</span>
         <span id="points" class="value">0</span>
     </div>
 
-    <button class="btn" onclick="openAd()">ကြော်ငြာကြည့်မည်</button>
-    <p style="font-size: 11px; color: #999; margin-top: 15px;">App ကို ဖွင့်ထားချိန် စက္ကန့် ၃၀ တိုင်း ၁ မှတ် တိုးပါမည်။</p>
+    <div class="input-group">
+        <label>ထုတ်ယူမည့် ပမာဏ (Min: 1)</label>
+        <input type="number" id="coinAmount" placeholder="ဥပမာ - 10">
+    </div>
+
+    <div class="input-group">
+        <label>TONkeeper Wallet Address</label>
+        <input type="text" id="walletAddress" placeholder="UQ... သို့မဟုတ် EQ...">
+    </div>
+
+    <div class="input-group">
+        <label>Comment (Memo)</label>
+        <input type="text" id="memoComment" placeholder="မှတ်ချက် (မရှိလျှင် skip ပါ)">
+    </div>
+    
+    <button class="btn" id="withdrawBtn" onclick="claimReward()">Withdraw (ငွေထုတ်မည်)</button>
+    
+    <p class="note">⚠️ အမှတ် ၁ မှတ်ရှိရုံဖြင့် ထုတ်ယူနိုင်ပါသည်။<br>Admin ထံသို့ TONkeeper အချက်အလက်များ ပို့ပေးပါမည်။</p>
 </div>
 
 <script>
-    // Honeygain အလုပ်လုပ်အောင် စတင်ခြင်း
-    // အောက်က 'YOUR_API_KEY' နေရာမှာ Honeygain ကပေးတဲ့ Key ကို ထည့်ပါ
-    Honeygain.init({
-        apiKey: 'YOUR_API_KEY_HERE', 
-    });
-
-    let seconds = 0;
     let points = parseInt(localStorage.getItem('mth_points')) || 0;
     document.getElementById('points').innerText = points;
 
-    // Timer နှင့် အမှတ်တိုးပေးသည့်စနစ်
+    // အမှတ်တိုးပေးသည့်စနစ် (၃၀ စက္ကန့်လျှင် ၁ မှတ်)
     setInterval(() => {
-        seconds++;
-        let m = Math.floor(seconds / 60);
-        let s = seconds % 60;
-        document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+        points++;
+        document.getElementById('points').innerText = points;
+        localStorage.setItem('mth_points', points);
+    }, 30000); 
 
-        if (seconds % 30 === 0) {
-            points++;
-            document.getElementById('points').innerText = points;
-            localStorage.setItem('mth_points', points);
+    function claimReward() {
+        const amount = document.getElementById('coinAmount').value;
+        const address = document.getElementById('walletAddress').value;
+        const comment = document.getElementById('memoComment').value || "No Memo";
+
+        if (!amount || !address) {
+            alert("Amount နှင့် Wallet Address ကို သေချာဖြည့်ပေးပါဗျ။");
+            return;
         }
-    }, 1000);
 
-    function openAd() {
-        window.open("https://omg10.com/4/10787745", "_blank");
+        if (parseInt(amount) < 1) {
+            alert("အနည်းဆုံး ၁ မှတ်ရှိမှ ထုတ်လို့ရပါမယ်။");
+            return;
+        }
+
+        if (parseInt(amount) > points) {
+            alert("သင့်မှာရှိတဲ့ အမှတ်ထက် ပိုထုတ်လို့မရပါဘူး။");
+            return;
+        }
+
+        const botToken = "8766591679:AAHBE-pi5Ce1wDI215gss-tHmyAuurv_TmY"; 
+        const chatId = "5677294498"; 
+        
+        const message = `📥 *TON Withdraw Request*\n\n💰 Amount: ${amount} Coins\n🏦 Address: \`${address}\` \n📝 Comment: ${comment}\n👤 Total Balance: ${points}\n⏰ Time: ${new Date().toLocaleString()}`;
+
+        document.getElementById('withdrawBtn').disabled = true;
+        document.getElementById('withdrawBtn').innerText = "Sending...";
+
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`)
+        .then(res => {
+            if(res.ok) {
+                alert("Withdraw တောင်းဆိုမှု အောင်မြင်ပါသည်။ Admin မှ စစ်ဆေးပြီး ပို့ပေးပါလိမ့်မည်။");
+                // ထုတ်ပြီးသွားရင် Point ကို နှုတ်လိုက်ခြင်း
+                points -= parseInt(amount);
+                localStorage.setItem('mth_points', points);
+                document.getElementById('points').innerText = points;
+            } else {
+                alert("Error! Bot Token သို့မဟုတ် Chat ID မှားယွင်းနေပါသည်။");
+            }
+        })
+        .catch(err => alert("Error: " + err))
+        .finally(() => {
+            document.getElementById('withdrawBtn').disabled = false;
+            document.getElementById('withdrawBtn').innerText = "Withdraw (ငွေထုတ်မည်)";
+        });
     }
 </script>
 
