@@ -3,62 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTH ADGRAM</title>
+    <title>MTH ADGRAM - Premium</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
-        .score-box { background: #e1f5fe; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .points-text { font-size: 35px; font-weight: bold; color: #0277bd; }
-        .withdraw-section { border-top: 1px solid #eee; padding-top: 20px; text-align: left; }
-        .withdraw-section label { font-size: 12px; color: #666; font-weight: bold; }
-        input { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        .btn-withdraw { background: #0088cc; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; }
-        .btn-ad { background: #03a9f4; color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; width: 100%; margin-bottom: 15px; cursor: pointer; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
+        .score-box { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #81d4fa; }
+        .points-text { font-size: 40px; font-weight: bold; color: #0277bd; }
+        .withdraw-section { border-top: 2px dashed #eee; padding-top: 20px; text-align: left; }
+        label { font-size: 13px; color: #546e7a; font-weight: bold; margin-left: 5px; }
+        input { width: 100%; padding: 14px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; outline: none; font-size: 15px; }
+        input:focus { border-color: #0088cc; box-shadow: 0 0 5px rgba(0,136,204,0.2); }
+        .conversion-box { background: #fff9c4; padding: 10px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-size: 14px; color: #f57f17; font-weight: bold; border: 1px solid #fff176; }
+        .btn-withdraw { background: #0088cc; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-withdraw:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 style="margin-bottom:20px;">MTH ADGRAM</h2>
+    <h2 style="margin-bottom:10px; color:#333;">MTH ADGRAM</h2>
+    <p style="font-size: 12px; color: #90a4ae; margin-bottom: 20px;">၁ မိနစ်လျှင် ၁ မှတ် အလိုအလျောက်တိုးပါမည်</p>
 
     <div class="score-box">
-        <div style="font-size:14px; color:#546e7a;">ရရှိထားသော အမှတ်</div>
+        <div style="font-size:14px; color:#01579b; margin-bottom:5px;">ရရှိထားသော အမှတ်</div>
         <div id="pointsDisplay" class="points-text">0</div>
     </div>
 
-    <button class="btn-ad" onclick="alert('ကြော်ငြာများ မကြာမီ လာပါမည်')">ကြော်ငြာကြည့်မည်</button>
-
     <div class="withdraw-section">
-        <label>ထုတ်ယူမည့် ပမာဏ</label>
-        <input type="number" id="amount" placeholder="ဥပမာ - 1">
+        <label>ထုတ်ယူမည့် အမှတ်ပမာဏ</label>
+        <input type="number" id="amount" placeholder="ဥပမာ - 100" oninput="calculateTon()">
+
+        <div id="tonResult" class="conversion-box">ရရှိမည့်ပမာဏ: 0.000000 TON</div>
 
         <label>TONkeeper Address</label>
-        <input type="text" id="address" placeholder="UQ...">
+        <input type="text" id="address" placeholder="UQ... သို့မဟုတ် EQ...">
 
         <label>Comment / Memo</label>
         <input type="text" id="memo" placeholder="မှတ်ချက် (မရှိလျှင် skip ပါ)">
 
         <button class="btn-withdraw" onclick="sendWithdraw()">Withdraw (ငွေထုတ်မည်)</button>
     </div>
-    
-    <p style="font-size: 11px; color: #999; margin-top: 15px;">App ဖွင့်ထားချိန် စက္ကန့် ၃၀ တိုင်း ၁ မှတ် တိုးပါမည်။</p>
 </div>
 
 <script>
-    let points = parseInt(localStorage.getItem('mth_points')) || 0;
+    let points = parseInt(localStorage.getItem('mth_v3_points')) || 0;
     document.getElementById('pointsDisplay').innerText = points;
 
-    // အမှတ်တိုးပေးသည့်စနစ်
+    // ၁ မိနစ်လျှင် ၁ မှတ် တိုးပေးသည့်စနစ် (60000 ms = 1 minute)
     setInterval(() => {
         points++;
         document.getElementById('pointsDisplay').innerText = points;
-        localStorage.setItem('mth_points', points);
-    }, 30000);
+        localStorage.setItem('mth_v3_points', points);
+        calculateTon(); // အမှတ်တိုးတိုင်း တွက်ချက်မှုပါ ပြောင်းပေးရန်
+    }, 60000);
+
+    // TON ပမာဏ တွက်ချက်ခြင်း (1 coin = 0.000001 TON)
+    function calculateTon() {
+        const inputAmount = document.getElementById('amount').value || 0;
+        const tonValue = (inputAmount * 0.000001).toFixed(6);
+        document.getElementById('tonResult').innerText = `ရရှိမည့်ပမာဏ: ${tonValue} TON`;
+    }
 
     function sendWithdraw() {
         const amountVal = document.getElementById('amount').value;
         const addressVal = document.getElementById('address').value;
         const memoVal = document.getElementById('memo').value || "No Memo";
+        const tonVal = (amountVal * 0.000001).toFixed(6);
 
         if (!amountVal || !addressVal) {
             alert("အချက်အလက်များ ပြည့်စုံစွာ ဖြည့်ပေးပါဗျ။");
@@ -72,17 +82,17 @@
 
         const botToken = "8766591679:AAHBE-pi5Ce1wDI215gss-tHmyAuurv_TmY";
         const chatId = "5677294498";
-        const message = `📥 *TON Withdraw Request*\n\n💰 Amount: ${amountVal} Coins\n🏦 Address: \`${addressVal}\` \n📝 Memo: ${memoVal}`;
+        const message = `📥 *New TON Withdraw Request*\n\n💰 Points: ${amountVal}\n💎 Receive: ${tonVal} TON\n🏦 Address: \`${addressVal}\` \n📝 Memo: ${memoVal}`;
 
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`)
         .then(res => {
             if (res.ok) {
                 alert("Withdraw တောင်းဆိုမှု အောင်မြင်ပါသည်။");
                 points -= parseInt(amountVal);
-                localStorage.setItem('mth_points', points);
+                localStorage.setItem('mth_v3_points', points);
                 document.getElementById('pointsDisplay').innerText = points;
-            } else {
-                alert("Error! Bot error ဖြစ်နေပါသည်။");
+                document.getElementById('amount').value = "";
+                calculateTon();
             }
         });
     }
@@ -90,3 +100,4 @@
 
 </body>
 </html>
+
